@@ -25,7 +25,7 @@ int main() {
         for (int j = 1; j <= k; j++) {
             int w = v[i - 1].first;
             int p = v[i - 1].second;
-            if (w > j)
+            if (w > j)  // j(1~k) -> 무게
                 dp[i][j] = dp[i - 1][j];
             else
                 dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w] + p);
