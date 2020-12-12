@@ -9,6 +9,8 @@ using namespace std;
 #define pll pair<long, long>
 #define tiii tuple<int, int, int>
 #define sz(x) (int)(x).size()
+#define pb push_back
+#define acc accumulate
 #define ff(begin, i, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define fastio ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL)
 #define debug freopen("input.txt", "r", stdin), freopen("output.txt", "w", stdout)
@@ -34,21 +36,42 @@ void err(istream_iterator<string> it, T a, Args... args) {
 
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
-int arr[51][31];
-int dp[51][1501];
+
+struct info{
+	int a,b,c;
+};
+
+
 
 void solve() {
-	cout << "hello world!";
+	int n;
+	cin >> n;
+	map<string,int> mp;
+	while(n--){
+		string s; cin >> s;
+		mp[s] +=1;
+	}
+	int MAX=0;
+	for(auto x : mp){
+		MAX = max(MAX,x.second);
+	}
+	vector<string> vs;
+	for(auto x :mp)
+		if(x.second == MAX) vs.pb(x.first);
+
+	sort(all(vs));
+	cout << vs[sz(vs)-1] << " " << MAX;
 }
 
 
 auto main() -> int {
     fastio;
-    debug;  // ✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+// debug;  // ‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®
     int t = 1;
-    cin >> t;  // ✨✨✨✨✨✨✨✨✨✨✨✨✨✨
+//   cin >> t;  // ‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®‚ú®
     for (int i = 1; i <= t; i++) {
         // cout << "case #" << i << ": ";
+		// 
         solve();
     }
 }
@@ -61,3 +84,5 @@ auto main() -> int {
 // floating points?
 // check if fastio is causing the problem
 // use feynman algorithm
+
+
