@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "__tuple": "cpp",
-        "tuple": "cpp"
+        "tuple": "cpp",
+        "utility": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "iostream": "cpp",
+        "ios": "cpp"
     }
 }
