@@ -1,4 +1,4 @@
-// date: Fri Feb 19 00:35:51 2021
+// date: Fri Feb 19 22:46:09 2021
 // author: dwax1324
 #include <bits/stdc++.h>
 using namespace std;typedef pair<int,int> pii;typedef tuple<int,int,int> tii;
@@ -9,48 +9,50 @@ using namespace std;typedef pair<int,int> pii;typedef tuple<int,int,int> tii;
 #define o2 second
 #define endl '\n'
 // #define int int64_t
-const int MAXN = 1001*2;
-int N,M;
-vector<int> adj[MAXN];
 
-int A[MAXN],B[MAXN],vis[MAXN];
-struct bma{
-
-	static bool dfs(int a){
-		vis[a] = true;
-		for(auto b : adj[a]){
-			if(B[b] == -1 || (vis[B[b]] == 0 &&  dfs(B[b]))){
-				A[a] = b;
-				B[b] = a;
-				return true;
-			}
-		}
-		return false;
-	}
-
-}bm;
-
+const int MAXN = 20001, INF = 1e9;
+struct edge{int v, w;};
+int d[MAXN], inQ[MAXN], cnt[MAXN];
+vector<edge> adj[MAXN];
+deque<int> q;
+int O,cK;
 
 int32_t main(){α
-	cin >> N>> M;
-	memset(A,-1,sizeof(A));
-	memset(B,-1,sizeof(B));
-	for(int i=0; i < N; i++){
-		int a; cin >> a; while(a--){
-			int t; cin >> t; t--;
-			adj[i*2].push_back(t);	
-			adj[i*2+1].push_back(t);
-		}
+	int N,M,K;
+	cin >> N>> M>> K;
+	O = cK = sqrt(N);
+	for(int i=0; i < M ;i++){
+		int u,v,w; cin >> u >> v >> w;
+		adj[u].push_back({v,w});
 	}
-	int ans=0;
-	for(int i=0; i < N*2; i++){
-		if(A[i] == -1){
-			memset(vis,0,sizeof(vis));
-			if(bm.dfs(i)) ans++;
+	fill(d,d+MAXN,INF);
+	d[K] =0;
+	q.push_back(K); inQ[K] = true;
+	while(q.size()){
+		int u = q.front(); q.pop_front(); inQ[u] = false;
+		for(auto & e : adj[u]){
+			int v = e.v, w= e.w;
+			if( d[v] > d[u] + w){
+				d[v] = d[u] + w;
+
+				if(inQ[v] == 0){
+					if(q.size() > 0 && d[q.back()] < d[q.front()]){
+						q.push_front(q.back());
+						q.pop_back();
+					}
+					int diff = INF;
+					if(q.size()) diff = d[q.front()] - d[v];
+					if(cnt[v] >= cK || diff >= 0) q.push_back(v), cnt[v]++;
+					else q.push_front(v);
+					inQ[v] = true;
+				}
+			}
 		}
+
 	}
-	cout << ans;
+	for(int i=1; i<= N; i++){
+		if(d[i]>=INF) cout << "INF" << endl;
+		else cout << d[i] << endl;
+	}
 }
-
-
 
