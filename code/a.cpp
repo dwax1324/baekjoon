@@ -1,58 +1,47 @@
-// date: Fri Feb 19 22:46:09 2021
+// date: Sat Feb 20 18:09:47 2021
 // author: dwax1324
 #include <bits/stdc++.h>
-using namespace std;typedef pair<int,int> pii;typedef tuple<int,int,int> tii;
-#define α ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
-#define o1 first
-#define o2 second
-#define endl '\n'
-// #define int int64_t
+//#define int int64_t
+using namespace std;typedef pair<int,int> pii;typedef tuple<int,int,int> tii; typedef long long ll;
 
-const int MAXN = 20001, INF = 1e9;
-struct edge{int v, w;};
-int d[MAXN], inQ[MAXN], cnt[MAXN];
-vector<edge> adj[MAXN];
-deque<int> q;
-int O,cK;
-
-int32_t main(){α
-	int N,M,K;
-	cin >> N>> M>> K;
-	O = cK = sqrt(N);
-	for(int i=0; i < M ;i++){
-		int u,v,w; cin >> u >> v >> w;
-		adj[u].push_back({v,w});
+int N,M;
+const int MAXN = 1e6+1;
+struct SEGTREE{
+	int seg[MAXN*4];
+	
+	int init(int n=1, int nl=1, int nr=N){
+		if(nl == nr ) return seg[n] = nl;
+		int mid = (nl+nr)/2;
+		return seg[n] = init(n*2,nl,mid)+init(n*2+1,mid+1,nr);
 	}
-	fill(d,d+MAXN,INF);
-	d[K] =0;
-	q.push_back(K); inQ[K] = true;
-	while(q.size()){
-		int u = q.front(); q.pop_front(); inQ[u] = false;
-		for(auto & e : adj[u]){
-			int v = e.v, w= e.w;
-			if( d[v] > d[u] + w){
-				d[v] = d[u] + w;
+	int query(int l, int r, int n =1, int nl =1, int nr=N){
+		if(l > nr || r < nl) return 0;
+		if(l <= nl && r >= nr) return seg[n];
+		int mid = (nl+nr)/2;
+		return query(l,r,n*2,nl,mid)+query(l,r,n*2+1,mid+1,nr);
+	}
 
-				if(inQ[v] == 0){
-					if(q.size() > 0 && d[q.back()] < d[q.front()]){
-						q.push_front(q.back());
-						q.pop_back();
-					}
-					int diff = INF;
-					if(q.size()) diff = d[q.front()] - d[v];
-					if(cnt[v] >= cK || diff >= 0) q.push_back(v), cnt[v]++;
-					else q.push_front(v);
-					inQ[v] = true;
-				}
-			}
+	int update(int idx, int val ,int n=1, int nl=1, int nr=N){
+		if(idx < nl || idx > nr) return seg[n];
+		if(nl == nr) return seg[n] = val;
+		int mid= (nl +nr)/2;
+		return seg[n] = update(idx,val,n*2,nl,mid)+update(idx,val,n*2+1,mid+1,nr);
+	}
+
+}st;
+
+int32_t main(){ios_base::sync_with_stdio(0);cin.tie(0);
+	cin >> N>> M;
+	// st.init();
+	for(int i=0; i < M; i++){
+		int a,b,c; cin >> a >> b >> c;
+		if(a==0){
+			cout << st.query(b,c) << '\n';
+		}else{
+			st.update(b,c);
 		}
 
-	}
-	for(int i=1; i<= N; i++){
-		if(d[i]>=INF) cout << "INF" << endl;
-		else cout << d[i] << endl;
 	}
 }
 
