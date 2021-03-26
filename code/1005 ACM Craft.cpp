@@ -10,7 +10,7 @@ using namespace std;
 typedef pair<int,int> pii;
 typedef tuple<int,int,int> tiii;
 // #define int int64_t
-/* ⁽⁽◝( ˙ ꒳ ˙ )◜⁾⁾ ⁽⁽◝( ˙ ꒳ ˙ )◜⁾⁾ ⁽⁽◝( ˙ ꒳ ˙ )◜⁾⁾
+/* ⁽⁽◝( ˙ ꒳ ˙ )◜⁾⁾ ⁽⁽◝( ˙ ꒳ ˙ )◜⁾⁾ ⁽⁽◝( ˙ ꒳ ˙ )◜⁾
     2021.01.26 Tue
     comment: 
     위상정렬
